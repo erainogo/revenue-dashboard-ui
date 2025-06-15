@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+Sales Analytics Dashboard
+A React-based dashboard application that provides comprehensive sales insights through interactive charts and data tables. The application fetches data from various analytics APIs to display country-level revenue, product analytics, monthly sales summaries, and regional revenue breakdowns.
+Features
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Country-Level Revenue Analysis: Paginated table showing revenue data by country
+Product Analytics: Displays frequently purchased products with interactive charts
+Monthly Sales Summary: Time-series visualization of sales performance over months
+Regional Revenue Breakdown: Geographic analysis of revenue distribution across regions
+Interactive Data Visualization: Charts and graphs for better data comprehension
 
-## Available Scripts
+API Endpoints
+The application integrates with the following backend APIs:
+Country Revenue API
+GET http://localhost:8090/api/insights/getcountrylevelrevenue
+Parameters: page, limit
 
-In the project directory, you can run:
+Provides paginated country-level revenue data
+Supports pagination with configurable page size
+Returns structured data array with revenue metrics by country
 
-### `npm start`
+Product Analytics API
+GET http://localhost:8090/api/insights/getfrequentlypurchasedproducts
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Returns data on most frequently purchased products
+Includes product performance metrics
+Used for product popularity analysis
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Monthly Sales Summary API
+GET http://localhost:8090/api/insights/getmonthlysalessummary
 
-### `npm test`
+Provides monthly aggregated sales data
+Time-series data for trend analysis
+Supports sales performance tracking over time
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Regional Revenue API
+GET http://localhost:8090/api/insights/getregionrevenyesummary
 
-### `npm run build`
+Returns revenue breakdown by geographic regions
+Enables regional performance comparison
+Supports geographic sales analysis
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Data Display Components
+Charts
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Bar Charts: Product frequency and regional comparisons
+Line Charts: Monthly sales trends and time-series analysis
+Pie Charts: Revenue distribution by region/country
+Interactive Legends: Toggle data series visibility
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Tables
 
-### `npm run eject`
+Paginated Data Tables: Country revenue with sorting capabilities
+Infinite Scroll: Seamless data loading for large datasets
+Responsive Columns: Adaptive layout for different screen sizes
+Search and Filter: Quick data discovery features
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Prerequisites
+Before running the application, ensure you have:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+npm
+Backend API Server running on http://localhost:8090
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Installation & Setup
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Clone the Repository
+bashgit clone <repository-url>
+cd sales-analytics-dashboard
 
-## Learn More
+2. Install Dependencies
+bash# Using npm
+npm install
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+3. Start the Development Server
+bash# Using npm
+npm start

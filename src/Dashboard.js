@@ -200,7 +200,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Sales Dashboard</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Revenue Dashboard</h1>
               <p className="text-gray-600 mt-1">Comprehensive analytics and insights</p>
             </div>
             <div className="flex items-center space-x-2 text-sm text-gray-500">
@@ -212,35 +212,6 @@ export default function Dashboard() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard
-            title="Total Revenue"
-            value={totalRevenue > 0 ? formatCurrency(totalRevenue) : "No data"}
-            icon={DollarSign}
-            trend={totalRevenue > 0 ? "+12.5%" : null}
-            color="green"
-          />
-          <StatCard
-            title="Total Transactions"
-            value={totalTransactions > 0 ? formatNumber(totalTransactions) : "No data"}
-            icon={ShoppingCart}
-            trend={totalTransactions > 0 ? "+8.2%" : null}
-            color="blue"
-          />
-          <StatCard
-            title="Active Products"
-            value={totalProducts > 0 ? totalProducts : "No data"}
-            icon={Package}
-            color="purple"
-          />
-          <StatCard
-            title="Active Regions"
-            value={totalRegions > 0 ? totalRegions : "No data"}
-            icon={MapPin}
-            color="orange"
-          />
-        </div>
 
         {/* Country-Level Revenue Table */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -438,29 +409,51 @@ export default function Dashboard() {
           </div>
           <ResponsiveContainer width="100%" height={400}>
             {regionData.length > 0 ? (
-              <BarChart 
-                data={regionData} 
-                layout="horizontal"
-                margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis type="number" fontSize={12} tickFormatter={(value) => formatCurrency(value)} />
-                <YAxis type="category" dataKey="region" fontSize={12} width={90} />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'white', 
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }}
-                  formatter={(value, name) => [
-                    name === 'total_revenue' ? formatCurrency(value) : formatNumber(value),
-                    name === 'total_revenue' ? 'Revenue' : 'Items Sold'
-                  ]}
-                />
-                <Legend />
-                <Bar dataKey="total_revenue" fill={colors.purple} name="Total Revenue" radius={[0, 4, 4, 0]} />
-              </BarChart>
+              <BarChart
+              data={regionData}
+              layout="vertical"
+              margin={{ top: 20, right: 30, left: 100, bottom: 20 }}
+              barGap={8}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis
+                type="number"
+                fontSize={12}
+                tickFormatter={(value) => formatCurrency(value)}
+              />
+              <YAxis
+                dataKey="region"
+                type="category"
+                fontSize={12}
+                width={100}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'white',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                }}
+                formatter={(value, name) => [
+                  name === 'total_revenue' ? formatCurrency(value) : formatNumber(value),
+                  name === 'total_revenue' ? 'Revenue' : 'Items Sold'
+                ]}
+              />
+              <Legend />
+              <Bar
+                dataKey="total_revenue"
+                name="Total Revenue"
+                fill="#6366F1"
+                radius={[0, 4, 4, 0]}
+              />
+              <Bar
+                dataKey="total_quantity"
+                name="Items Sold"
+                fill="#10B981"
+                radius={[0, 4, 4, 0]}
+              />
+            </BarChart>
+            
             ) : (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center text-gray-500">

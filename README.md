@@ -19,24 +19,24 @@ Features
 The application integrates with the following backend APIs:
 
 ### Country Revenue API
-GET /api/insights/getcountrylevelrevenue
+GET - /api/insights/getcountrylevelrevenue
 
 - Parameters: page, limit
 
 - Provides paginated country-level revenue datay
 
 ### Product Summary API
-GET /api/insights/getfrequentlypurchasedproducts
+GET - /api/insights/getfrequentlypurchasedproducts
 
 - Returns data on most frequently purchased products
 
 ### Monthly Sales Summary API
-GET /api/insights/getmonthlysalessummary
+GET - /api/insights/getmonthlysalessummary
 
 - Provides monthly aggregated sales data
 
 ### Regional Revenue API
-GET /api/insights/getregionrevenyesummary
+GET - /api/insights/getregionrevenyesummary
 
 - Returns revenue breakdown by geographic regions
 

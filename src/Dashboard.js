@@ -39,73 +39,85 @@ export default function Dashboard() {
   const [monthlySalesData, setMonthlySalesData] = useState([]);
   const [regionData, setRegionData] = useState([]);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const limit = 50;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      
-      try {
-        // Helper function to make fetch requests
-        const fetchWithParams = async (url, params = {}) => {
-          const urlObj = new URL(url);
-          Object.keys(params).forEach(key => {
-            if (params[key] !== undefined && params[key] !== null) {
-              urlObj.searchParams.append(key, params[key]);
-            }
-          });
-          
-          const response = await fetch(urlObj.toString());
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const fetchWithParams = async (url, params = {}) => {
+        const urlObj = new URL(url);
+        Object.keys(params).forEach(key => {
+          if (params[key] !== undefined && params[key] !== null) {
+            urlObj.searchParams.append(key, params[key]);
           }
-          return response.json();
-        };
-
-        const [
-          countryRes,
-          productRes,
-          monthlyRes,
-          regionRes,
-        ] = await Promise.all([
-          fetchWithParams("http://localhost:8090/api/insights/getcountrylevelrevenue", { page, limit }),
-          fetch("http://localhost:8090/api/insights/getfrequentlypurchasedproducts").then(res => {
-            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-            return res.json();
-          }),
-          fetch("http://localhost:8090/api/insights/getmonthlysalessummary").then(res => {
-            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-            return res.json();
-          }),
-          fetch("http://localhost:8090/api/insights/getregionrevenyesummary").then(res => {
-            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-            return res.json();
-          }),
-        ]);
-
-        // Set data with proper fallbacks
-        setCountryData(countryRes.data || []);
-        setProductData(productRes.data || []);
-        setMonthlySalesData(monthlyRes.data || []);
-        setRegionData(regionRes.data || []);
-
-        // Set pagination info
-        if (countryRes.total) {
-          setTotalPages(Math.ceil(countryRes.total / limit));
+        });
+        
+        console.log('Fetching URL:', urlObj.toString());
+        const response = await fetch(urlObj.toString());
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setError(err.message || "Failed to fetch dashboard data");
-      } finally {
-        setLoading(false);
-      }
-    };
+        
+        const data = await response.json();
+        console.log('API Response:', data);
+        return data;
+      };
 
+      // Fetch country data with pagination
+      const countryRes = await fetchWithParams("http://localhost:8090/api/insights/getcountrylevelrevenue", { 
+        page: page.toString(), 
+        limit: limit.toString() 
+      });
+      
+      console.log('Country data response:', countryRes);
+      
+      if (!countryRes.data || !Array.isArray(countryRes.data)) {
+        throw new Error('Invalid country data response format');
+      }
+
+      // Check if we have more data
+      setHasMore(countryRes.data.length === limit);
+
+      // Fetch other data
+      const [productRes, monthlyRes, regionRes] = await Promise.all([
+        fetch("http://localhost:8090/api/insights/getfrequentlypurchasedproducts").then(res => {
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json();
+        }),
+        fetch("http://localhost:8090/api/insights/getmonthlysalessummary").then(res => {
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json();
+        }),
+        fetch("http://localhost:8090/api/insights/getregionrevenyesummary").then(res => {
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json();
+        }),
+      ]);
+
+      // Set data with proper fallbacks
+      setCountryData(countryRes.data || []);
+      setProductData(productRes.data || []);
+      setMonthlySalesData(monthlyRes.data || []);
+      setRegionData(regionRes.data || []);
+
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      setError(err.message || "Failed to fetch dashboard data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log('Page changed to:', page);
     fetchData();
   }, [page]);
 
@@ -295,21 +307,30 @@ export default function Dashboard() {
           <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-700">
-                Showing page <span className="font-medium">{page}</span> of{' '}
-                <span className="font-medium">{totalPages}</span>
+                Page <span className="font-medium">{page}</span>
               </div>
               <div className="flex space-x-2">
                 <button
                   className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                  disabled={page === 1}
+                  onClick={() => {
+                    console.log('Previous clicked, current page:', page);
+                    if (page > 1) {
+                      setPage(page - 1);
+                    }
+                  }}
+                  disabled={page <= 1}
                 >
                   Previous
                 </button>
                 <button
                   className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-                  disabled={page >= totalPages}
+                  onClick={() => {
+                    console.log('Next clicked, current page:', page);
+                    if (hasMore) {
+                      setPage(page + 1);
+                    }
+                  }}
+                  disabled={!hasMore}
                 >
                   Next
                 </button>

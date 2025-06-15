@@ -1,4 +1,4 @@
-# Sales Analytics Dashboard
+#  Revenue-Dashboard-UI
 
 A React-based dashboard application that provides comprehensive sales insights through interactive charts and data tables. The application fetches data from various analytics APIs to display country-level revenue, product analytics, monthly sales summaries, and regional revenue breakdowns.
 Features
@@ -19,23 +19,24 @@ Features
 The application integrates with the following backend APIs:
 
 ### Country Revenue API
-GET http://localhost:8090/api/insights/getcountrylevelrevenue
-Parameters: page, limit
+GET /api/insights/getcountrylevelrevenue
+
+- Parameters: page, limit
 
 - Provides paginated country-level revenue datay
 
 ### Product Summary API
-GET http://localhost:8090/api/insights/getfrequentlypurchasedproducts
+GET /api/insights/getfrequentlypurchasedproducts
 
 - Returns data on most frequently purchased products
 
 ### Monthly Sales Summary API
-GET http://localhost:8090/api/insights/getmonthlysalessummary
+GET /api/insights/getmonthlysalessummary
 
 - Provides monthly aggregated sales data
 
 ### Regional Revenue API
-GET http://localhost:8090/api/insights/getregionrevenyesummary
+GET /api/insights/getregionrevenyesummary
 
 - Returns revenue breakdown by geographic regions
 
@@ -54,18 +55,14 @@ GET http://localhost:8090/api/insights/getregionrevenyesummary
 
 - Before running the application, ensure you have: npm
 
-- Backend API Server running on http://localhost:8090
+- Backend API Server running on http://localhost:8090 or your desired port.
+
+- Set up Backend Here - https://github.com/erainogo/revenue-dashboard/
 
 # Installation & Setup
 
 1. Clone the Repository
-bashgit clone <repository-url>
-cd sales-analytics-dashboard
 
 2. Install Dependencies
-bash# Using npm
-npm install
 
 3. Start the Development Server
-bash# Using npm
-npm start

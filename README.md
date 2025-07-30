@@ -2,8 +2,6 @@
 
 A React-based dashboard application that provides comprehensive sales insights through interactive charts and data tables. The application fetches data from various analytics APIs to display country-level revenue, product analytics, monthly sales summaries, and regional revenue breakdowns.
 
-Loads within 5 - 6 seconds
-
 <img width="1728" alt="Screenshot 2025-06-15 at 19 14 38" src="https://github.com/user-attachments/assets/6e10b602-7bc9-4669-a7fa-2419cbc4be61" />
 
 <img width="1728" alt="Screenshot 2025-06-15 at 19 15 02" src="https://github.com/user-attachments/assets/a79dff3f-bd33-47a5-a407-a05f765321c3" />
